@@ -1,6 +1,3 @@
-import os
-import sys
-
 def main():
     """ Main program """
     print("This is a start!")
