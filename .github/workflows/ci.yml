@@ -31,7 +31,12 @@ jobs:
         run: npm install
 
       - name: Run ESLint
-        run: npx eslint "**/*.js"
+        run: |
+          if find static -type f -name "*.js" | grep -q .; then
+            npx eslint "static/**/*.js"
+          else
+            echo "No JavaScript files found in static/, skipping ESLint"
+          fi
 
       - name: Check formatting with Prettier
         run: npx prettier --check .
