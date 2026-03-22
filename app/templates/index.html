@@ -2,15 +2,21 @@
 <html>
 
 <head>
-    <title>My App</title>
+    <meta charset="utf-8">
+    <title>Departure Board</title>
+    <script src="https://kit.fontawesome.com/dd348bbd0a.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 
 <body>
     <h1>This is very much a work in progress 🪛</h1>
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
     <div id="departures"></div>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+
+    <h1><i class="fas fa-plane-departure"></i> Departures</h1>
+
+    <div class="departure-board" id="departure-board"></div>
 </body>
-
-
 
 </html>

@@ -26,19 +26,19 @@ mock_data = [
     {
         "line": "1",
         "destination": "Saltö",
-        "minutes_to_departure": 4,
+        "minutes_to_departure": "4",
         "station": "Campus Gräsvik"
     },
     {
         "line": "1",
         "destination": "Saltö",
-        "minutes_to_departure": 14,
+        "minutes_to_departure": "14",
         "station": "Campus Gräsvik"
     },
     {
         "line": "1",
         "destination": "Saltö",
-        "minutes_to_departure": 24,
+        "minutes_to_departure": "24",
         "station": "Campus Gräsvik"
     }
 
