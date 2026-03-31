@@ -1,35 +1,19 @@
-[x] Setup project structure (app/, services/, templates/, static/)
-[x] Create Python virtual environment
-[x] Install Flask (and requests if needed)
+# fetch real data
+## fetch static data
+- [ ] fetch static data (regularly)
+- [ ] Fetch neccesary input (stop_id/ stop_times/ trip_id)
+- [ ] split stops into platforms/direction A/B?
 
-[x] Create basic Flask app (create_app)
-[x] Add routes file
-[x] Register routes
-[x] Confirm "/" route works
+## fetch real time data
+- [ ] fetch real time data
+- [ ] visualize delays
+- [ ] fetching balancing 
 
-[x] Create mock departure data function
-[x] Add "/api/departures" route
-[x] Verify JSON response in browser
+# configurability
+- [ ] switch stops and lines 
+- [ ] configure fetching balancing
 
-[ ] Create basic HTML page
-[ ] improve the departue look! 
-[ ] Link CSS and JS
-[ ] Confirm page loads
+- [] increase speed of the animation or partial update i.e only flip minutes 
+- [] create a configurable limit request logic based on this: https://www.trafiklab.se/docs/using-trafiklab-data/best-practices/limiting-requests/#adjusting-the-update-frequency-during-the-day
 
-[ ] Fetch data from "/api/departures" using JS
-[ ] Display one departure on page
-[ ] Add auto-refresh (30–60s)
-
-[ ] Improve layout (readable text, spacing)
-
-[ ] Find real transport API
-[ ] Replace mock data with real API call
-[ ] Normalize data format
-[ ] Handle errors (no data / API fail)
-
-[ ] Run app for extended time (stability test)
-
-[ ] Show multiple departures (next iteration)
-[ ] Improve UI into board style
-[ ] Add simple config (stop, lines)
-[ ] Prepare for Raspberry Pi deployment
+- []
