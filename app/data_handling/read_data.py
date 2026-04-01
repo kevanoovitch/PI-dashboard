@@ -1,7 +1,13 @@
 import csv 
+from app.config import Config
 
-PATH_TO_STOPS = "../data/stops.txt"
-STOP_NAME = "Campus Gräsvik"
+
+
+PATH_TO_STOPS = Config.PATH_TO_STOPS
+STOP_NAME = Config.STOP_NAME
+STOP_LETTER = Config.STOP_LETTER
+
+
 
 def static_read():
     # will do big things 
@@ -54,11 +60,8 @@ def _get_stop_id(stop_name: str, file_path: str = PATH_TO_STOPS) -> str | None:
         # no children exist
         return parent_id 
     
-    #3. Prefer platform A 
-    # TODO: add a select and view function 
-
     child_a = next(
-        (stop for stop in children if stop["platform_code"] == "A"),
+        (stop for stop in children if stop["platform_code"] == STOP_LETTER),
         None
     )
 
@@ -67,9 +70,7 @@ def _get_stop_id(stop_name: str, file_path: str = PATH_TO_STOPS) -> str | None:
 
     # 3. Otherwise pick first child
     return children[0]["stop_id"]
-
-
-
+    
 def _fetch_static_data():
     #TODO: implement this
 
