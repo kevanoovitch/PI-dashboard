@@ -9,3 +9,5 @@ def test_get_stop_id_A():
     print(f"Fetched ID: {curr_stop_id}")
     assert curr_stop_id == id_stop_A
     
+def test_get_stop_time():
+    pass 

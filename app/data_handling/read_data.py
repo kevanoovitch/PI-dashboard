@@ -6,6 +6,7 @@ from app.config import Config
 PATH_TO_STOPS = Config.PATH_TO_STOPS
 STOP_NAME = Config.STOP_NAME
 STOP_LETTER = Config.STOP_LETTER
+SCHEDULED_STOP_TIMES = Config.PATH_TO_STOP_TIMES
 
 
 
@@ -16,9 +17,10 @@ def static_read():
     _fetch_static_data()
 
     # get stop id 
-    _get_stop_id(STOP_NAME)
+    stop_id = _get_stop_id(STOP_NAME)
 
     # get stop times / "schedule for a stop"
+    _get_scheduled_stop_time(stop_id)
 
     # trip_id "line nr id"
 
@@ -29,7 +31,6 @@ def _load_stops(file_path: str) -> list[dict]:
         for row in reader: 
             stops.append(row)
     return stops
-
 
 def _get_stop_id(stop_name: str, file_path: str = PATH_TO_STOPS) -> str | None:
     stops = _load_stops(file_path)
@@ -71,6 +72,16 @@ def _get_stop_id(stop_name: str, file_path: str = PATH_TO_STOPS) -> str | None:
     # 3. Otherwise pick first child
     return children[0]["stop_id"]
     
+
+def _get_scheduled_stop_time(stop_id):
+    # Based on stop_times.txt get 
+
+    
+
+    # All stop times and convert to HH:MM (Digital clock format)
+
+    
+
 def _fetch_static_data():
     #TODO: implement this
 
