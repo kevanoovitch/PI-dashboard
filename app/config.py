@@ -9,5 +9,16 @@ class Config:
 
     STOP_NAME = "Campus Gräsvik"
 
-    # TODO: add a select and view function 
+    # TODO: add a select and view function
     STOP_LETTER = "A"
+
+
+
+    DATA_DIR = Path("data")
+
+    STOPS = DATA_DIR / "stops.txt"
+    STOP_NAMES = DATA_DIR / "stop_names.txt"
+    STOP_LETTERS = DATA_DIR / "stop_letters.txt"
+    STOP_TIMES = DATA_DIR / "stop_times.txt"
+    TRIPS = DATA_DIR / "trips.txt"
+    ROUTES= DATA_DIR / "routes.txt"
