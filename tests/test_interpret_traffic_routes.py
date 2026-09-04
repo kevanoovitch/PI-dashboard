@@ -1,6 +1,5 @@
 
-from app.data_handling.read_data import _get_stop_id
-
+from app.data_handling.read_data import _get_stop_id,static_read
 def test_get_stop_id_A():
 
     curr_stop_id = _get_stop_id("Campus Gräsvik")
@@ -8,6 +7,7 @@ def test_get_stop_id_A():
 
     print(f"Fetched ID: {curr_stop_id}")
     assert curr_stop_id == id_stop_A
-    
+
 def test_get_stop_time():
-    pass 
+    #TODO: implement this
+    pass

@@ -13,7 +13,7 @@ class StopDeparture:
     departure_time: str
     headsign: str
 
-with open(Config.PATH_TO_STOPS) as file:
+with open(Config.STOPS) as file:
     stops = file.read()
 
 def static_read():
@@ -74,6 +74,7 @@ def _resolve_departures(stop_id: str) -> list[StopDeparture]:
                     headsign=row["stop_headsign"],
                 )
             )
+
     return departures
 
 def _load_trip_to_route() -> dict[str,str]:
@@ -98,7 +99,7 @@ def _load_route_to_line() -> dict[str, str]:
         reader = csv.DictReader(file)
 
         for row in reader:
-            route_to_line[row["route_id"]] = row["route_short_summary"]
+            route_to_line[row["route_id"]] = row["route_short_name"]
 
     return route_to_line
 
@@ -133,7 +134,7 @@ def _get_stop_id(stop_name: str, file_path: Path = Config.STOPS) -> str | None:
         return parent_id
 
     child_a = next(
-        (stop for stop in children if stop["platform_code"] == STOP_LETTER),
+        (stop for stop in children if stop["platform_code"] == Config.STOP_LETTER),
         None
     )
 
@@ -145,6 +146,7 @@ def _get_stop_id(stop_name: str, file_path: Path = Config.STOPS) -> str | None:
 
 
 def _get_scheduled_stop_time(stop_id):
+    pass
     # Based on stop_times.txt get
 
 
@@ -155,6 +157,7 @@ def _get_scheduled_stop_time(stop_id):
 
 def _fetch_static_data():
     #TODO: implement this
+    pass
 
     #will do this call
     # https://opendata.samtrafiken.se/gtfs/{operator}/{operator}.zip?key={apikey}
@@ -166,4 +169,3 @@ def _fetch_static_data():
     # unzip the file
 
     # and overwrite txt files in /data
-    pass
