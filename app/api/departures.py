@@ -50,19 +50,31 @@ mock_data = [
 
 ]
 def get_departures_data():
-    #FIXME:return mock_data
 
+    clean_data = []
     # convert a list of departures objects into correct json structure
     departures = static_read()
 
-    next_departure = _binary_search_next_departure(departures)
+
+    next_departure_idx = _binary_search_next_departure(departures)
     # loop through amount of entries to be persented
-    for entry in range(Config.DEPARTURE_ENTRIES):
-        # look for the next entries in line
-        pass
+    for idx in range(next_departure_idx, next_departure_idx + Config.DEPARTURE_ENTRIES):
+
+
+        minutes_to_departure = _calculate_min_to_departure(departures[idx].departure_time)
+
+        clean_data.append(
+            {
+                "line": departures[idx].line_number,
+                "destination": departures[idx].headsign,
+                "minutes_to_departure": minutes_to_departure,
+                "station": Config.STOP_NAME,
+            }
+        )
+        next_departure_idx += 1
 
         # Convert each entry into one json block
-
+    return clean_data
 def _gtfs_seconds(time_str: str) -> int:
     hours, minutes, seconds = map(int, time_str.split(":"))
     return hours * 3600 + minutes * 60 + seconds

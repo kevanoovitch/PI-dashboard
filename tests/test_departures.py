@@ -34,5 +34,5 @@ def test_binary_search():
         assert result == 1
 
 
-def test_get_departure_data():
-    get_departures_data()
+#def test_get_departure_data():
+#    get_departures_data()

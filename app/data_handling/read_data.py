@@ -24,7 +24,7 @@ def static_read():
     stop_id = _get_stop_id(Config.STOP_NAME)
 
     if stop_id is None:
-        return None  # or return [], depending on your API
+        return []  # or return [], depending on your API
 
     # Resolve trip id -> route_id -> line number ("route_short_name")
     departures = _resolve_departures(stop_id)
