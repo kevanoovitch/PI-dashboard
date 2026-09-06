@@ -27,12 +27,12 @@ async function main() {
 
 /* --- Displaying data --- */
 
-const headerRubrics = ["Line", "To", "Min"];
+const headerRubrics = ["Line", "To", "Time"];
 
 const COLUMN_WIDTHS = {
     line: 4,
     destination: 18,
-    minutes: 4
+    minutes: 16
 };
 
 
@@ -40,6 +40,27 @@ function buildBoard(departures_data) {
     // main do stuff
 
     const board = document.getElementById("departure-board");
+
+    // auto-size
+  COLUMN_WIDTHS.line = Math.max(
+    headerRubrics[0].length,
+    ...departures_data.map(d => String(d.line).length)
+  );
+
+  COLUMN_WIDTHS.destination = Math.max(
+    headerRubrics[1].length,
+    ...departures_data.map(d => d.destination.length)
+  );
+
+  COLUMN_WIDTHS.minutes = Math.max(
+    headerRubrics[2].length,
+    ...departures_data.map(d => d.display_time.length)
+  );
+
+  COLUMN_WIDTHS.day = Math.max(
+    0,
+    ...departures_data.map(d => (d.day_label ?? "").length)
+  );
 
     //Build header row | Line NR | Line name | time |
 
@@ -51,14 +72,14 @@ function buildBoard(departures_data) {
     for (let i = 0; i < departures_data.length; i++) {
         let data_dict = departures_data[i];
 
-        newRow = buildRow(data_dict.line, data_dict.destination, data_dict.minutes_to_departure);
+        newRow = buildRow(data_dict.line, data_dict.destination, data_dict.display_time, data_dict.day_label);
         board.appendChild(newRow);
     }
 
     //victory dance
 }
 
-function buildRow(lineNr, lineName, minToDeparture) {
+function buildRow(lineNr, lineName, minToDeparture, dayLabel="") {
 
     const row = document.createElement("div");
     row.className = "row";
@@ -94,6 +115,22 @@ function buildRow(lineNr, lineName, minToDeparture) {
         const character = formattedMinutes[i];
         const span = document.createElement("span");
         span.className = `letter letter-${character}`;
+        row.appendChild(span);
+    }
+
+    // render the day label
+
+    if (COLUMN_WIDTHS.day > 0) {
+        row.appendChild(createSpace())
+    }
+
+    const formattedDay = formatField(dayLabel, COLUMN_WIDTHS.day);
+
+    for (const character of formattedDay) {
+        const span = document.createElement("span");
+        span.className = character === " "
+            ? "letter letter-blank"
+            : `letter letter-${character}`;
         row.appendChild(span);
     }
 

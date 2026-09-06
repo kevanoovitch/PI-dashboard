@@ -35,6 +35,7 @@ a {
     height: 40px;
     text-align: center;
     width: 40px;
+    flex-shrink: 0;
 }
 
 .letter::before {
@@ -392,6 +393,11 @@ a {
 
 .letter-9::after {
     content: "9";
+}
+
+[class~="letter-:"]::before,
+[class~="letter-:"]::after {
+    content: ":";
 }
 
 /* Letter animations */

@@ -1,5 +1,5 @@
 import csv
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from sys import exception
 from app.config import Config
@@ -15,6 +15,7 @@ class StopDeparture:
     line_number: str
     arrival_time: str
     departure_time: str
+    departure_DT: datetime
     headsign: str
 
 with open(Config.STOPS) as file:
@@ -36,9 +37,13 @@ def static_read():
         return []  # or return [], depending on your API
 
     # Resolve trip id -> route_id -> line number ("route_short_name")
-    departures = _resolve_departures(stop_id)
 
+    today = datetime.now().date()
+    departures = []
 
+    for offset in (-1,0,1):
+        service_date=today + timedelta(days=offset)
+        departures.extend(_resolve_departures(stop_id,service_date))
 
     return departures
 
@@ -51,7 +56,7 @@ def _load_stops(file_path: Path) -> list[dict]:
             stops.append(row)
     return stops
 
-def _resolve_departures(stop_id: str) -> list[StopDeparture]:
+def _resolve_departures(stop_id: str, service_date: date) -> list[StopDeparture]:
     trip_to_route = _load_trip_to_route()
     route_to_line = _load_route_to_line()
 
@@ -75,9 +80,16 @@ def _resolve_departures(stop_id: str) -> list[StopDeparture]:
             if line_number is None:
                 continue
 
+            hours, minutes, seconds = map(int,row["departure_time"].split(":"))
+            departure_datetime = datetime.combine(service_date,datetime.min.time()) + timedelta(
+                hours = hours,
+                minutes=minutes,
+               seconds=seconds,
+            )
+
             # Check availibilty of trip
 
-            if (_check_date_availability(trip_id) is True):
+            if (_check_date_availability(trip_id, service_date) is True):
 
                 departures.append(
                     StopDeparture(
@@ -86,29 +98,27 @@ def _resolve_departures(stop_id: str) -> list[StopDeparture]:
                         line_number=line_number,
                         arrival_time=row["arrival_time"],
                         departure_time=row["departure_time"],
+                        departure_DT= departure_datetime,
                         headsign=row["stop_headsign"],
                     )
                 )
 
     return departures
 
-def _check_date_availability(trip_id) -> bool:
+def _check_date_availability(trip_id, service_date: date) -> bool:
 
     service_id = _get_service_id(trip_id)
 
-    # Get current date
-    now = datetime.now().date()
 
-    weekday = now.strftime("%A").lower()
-
+    weekday = service_date.strftime("%A").lower()
 
     # Check if it runs today in calendar.txt
 
-    is_planned = _check_avalibility_in_schedule(service_id,now,weekday)
+    is_planned = _check_avalibility_in_schedule(service_id,service_date,weekday)
 
 
     # Check for exceptions in calendar_dates.txt
-    has_exceptions = _check_schedule_exceptions(service_id,now)
+    has_exceptions = _check_schedule_exceptions(service_id,service_date)
 
     if has_exceptions is not None:
         #There is an exception and it's value dictates if it runs or not

@@ -62,8 +62,8 @@ def get_departures_data():
     departures = static_read()
 
     departures.sort(
-        key=lambda departure: _gtfs_seconds(departure.departure_time)
-    )
+        key=lambda departure: departure.departure_DT)
+
 
     next_departure_idx = _binary_search_next_departure(departures)
 
@@ -79,14 +79,27 @@ def get_departures_data():
 
     for entry in picked_entries_arr:
 
-        minutes_to_departure = _calculate_min_to_departure(entry.departure_time)
+        minutes_to_departure = _calculate_min_to_departure(entry.departure_DT)
 
+        display_time = (
+            f"{minutes_to_departure} min"
+            if minutes_to_departure < 60
+            else entry.departure_DT.strftime("%H:%M")
+        )
+
+        day_label = (
+            "Tomorrow"
+            if entry.departure_DT.date() == datetime.now().date() + timedelta(days=1)
+            else ""
+        )
 
         parsed_entry = {
             "line": entry.line_number,
             "destination": entry.headsign,
             "minutes_to_departure": minutes_to_departure,
             "station": Config.STOP_NAME,
+            "display_time" : display_time,
+            "day_label" : day_label,
         }
 
         clean_data.append(parsed_entry)
@@ -98,6 +111,8 @@ def get_departures_data():
 
         # Convert each entry into one json block
     return clean_data
+
+#FIXME: remove derelict function
 def _gtfs_seconds(time_str: str) -> int:
     hours, minutes, seconds = map(int, time_str.split(":"))
     return hours * 3600 + minutes * 60 + seconds
@@ -120,9 +135,7 @@ def _binary_search_next_departure(departures):
     while low_idx <= high_idx:
         mid_idx = low_idx+(high_idx-low_idx) //2
 
-        departure_seconds = _gtfs_seconds(departures[mid_idx].departure_time)
-
-        if departure_seconds >= now_seconds:
+        if departures[mid_idx].departure_DT >= now:
             # This could be the next departure
             # OR maybe there is an earlier departure
             result = mid_idx
@@ -133,25 +146,6 @@ def _binary_search_next_departure(departures):
 
     return result
 
-def _calculate_min_to_departure(departure_time: str) -> int:
-
-    now = datetime.now()
-
-    hours, minutes, seconds = map(int, departure_time.split(":"))
-
-    # in order to handle times such as 25:24:11 (ie 01:24:11)
-    midnight = now.replace(
-        hour=0,
-        minute=0,
-        second=0,
-        microsecond=0
-    )
-
-    departure = midnight + timedelta(
-        hours=hours,
-        minutes=minutes,
-        seconds=seconds,
-    )
-
-    difference = departure - now
+def _calculate_min_to_departure(departure_dt: datetime) -> int:
+    difference = departure_dt - datetime.now()
     return int(difference.total_seconds()/60)

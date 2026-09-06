@@ -51,7 +51,53 @@ def test_sort():
 def test_binary_search():
     fake_now = datetime(2026, 9, 3, 7, 0, 0)
 
-    departures = [StopDeparture(trip_id='100001000007000001', route_id='9011010000100000', line_number='1', arrival_time='06:20:15', departure_time='06:20:15', headsign='Saltö'), StopDeparture(trip_id='100001000019000001', route_id='9011010000100000', line_number='1', arrival_time='07:13:15', departure_time='07:13:15', headsign='Saltö'), StopDeparture(trip_id='100001000021000001', route_id='9011010000100000', line_number='1', arrival_time='07:23:15', departure_time='07:23:15', headsign='Saltö'), StopDeparture(trip_id='100001000023000001', route_id='9011010000100000', line_number='1', arrival_time='07:33:15', departure_time='07:33:15', headsign='Saltö'), StopDeparture(trip_id='100001000027000001', route_id='9011010000100000', line_number='1', arrival_time='07:53:15', departure_time='07:53:15', headsign='Saltö')]
+    departures = [
+            StopDeparture(
+                trip_id="100001000007000001",
+                route_id="9011010000100000",
+                line_number="1",
+                arrival_time="06:20:15",
+                departure_time="06:20:15",
+                departure_DT=datetime(2026, 9, 3, 6, 20, 15),
+                headsign="Saltö",
+            ),
+            StopDeparture(
+                trip_id="100001000019000001",
+                route_id="9011010000100000",
+                line_number="1",
+                arrival_time="07:13:15",
+                departure_time="07:13:15",
+                departure_DT=datetime(2026, 9, 3, 7, 13, 15),
+                headsign="Saltö",
+            ),
+            StopDeparture(
+                trip_id="100001000021000001",
+                route_id="9011010000100000",
+                line_number="1",
+                arrival_time="07:23:15",
+                departure_time="07:23:15",
+                departure_DT=datetime(2026, 9, 3, 7, 23, 15),
+                headsign="Saltö",
+            ),
+            StopDeparture(
+                trip_id="100001000023000001",
+                route_id="9011010000100000",
+                line_number="1",
+                arrival_time="07:33:15",
+                departure_time="07:33:15",
+                departure_DT=datetime(2026, 9, 3, 7, 33, 15),
+                headsign="Saltö",
+            ),
+            StopDeparture(
+                trip_id="100001000027000001",
+                route_id="9011010000100000",
+                line_number="1",
+                arrival_time="07:53:15",
+                departure_time="07:53:15",
+                departure_DT=datetime(2026, 9, 3, 7, 53, 15),
+                headsign="Saltö",
+            ),
+            ]
 
     with patch("app.api.departures.datetime") as mock_datetime:
         mock_datetime.now.return_value = fake_now
