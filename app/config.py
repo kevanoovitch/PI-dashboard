@@ -14,5 +14,7 @@ class Config:
     STOP_TIMES = DATA_DIR / "stop_times.txt"
     TRIPS = DATA_DIR / "trips.txt"
     ROUTES = DATA_DIR / "routes.txt"
+    CAL_DATES = DATA_DIR / "calendar_dates.txt"
+    CAL = DATA_DIR / "calendar.txt"
 
     DEPARTURE_ENTRIES = 3

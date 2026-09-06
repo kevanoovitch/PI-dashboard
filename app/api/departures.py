@@ -1,8 +1,11 @@
 
 from datetime import date, datetime, timedelta
-from tkinter.constants import N
+from doctest import debug
+from venv import logger
 from app.data_handling.read_data import static_read
 from app.config import Config
+import logging
+
 
 """
 Docstring for app.api.departure
@@ -49,29 +52,49 @@ mock_data = [
     }
 
 ]
+
+logger = logging.getLogger()
+
 def get_departures_data():
 
     clean_data = []
     # convert a list of departures objects into correct json structure
     departures = static_read()
 
+    departures.sort(
+        key=lambda departure: _gtfs_seconds(departure.departure_time)
+    )
 
     next_departure_idx = _binary_search_next_departure(departures)
+
+    if next_departure_idx == -1:
+        logger.error("not departures found")
+        return []
     # loop through amount of entries to be persented
-    for idx in range(next_departure_idx, next_departure_idx + Config.DEPARTURE_ENTRIES):
 
 
-        minutes_to_departure = _calculate_min_to_departure(departures[idx].departure_time)
+    logger.info("Parsing departure data from static read")
 
-        clean_data.append(
-            {
-                "line": departures[idx].line_number,
-                "destination": departures[idx].headsign,
-                "minutes_to_departure": minutes_to_departure,
-                "station": Config.STOP_NAME,
-            }
+    picked_entries_arr = departures[next_departure_idx:next_departure_idx+Config.DEPARTURE_ENTRIES]
+
+    for entry in picked_entries_arr:
+
+        minutes_to_departure = _calculate_min_to_departure(entry.departure_time)
+
+
+        parsed_entry = {
+            "line": entry.line_number,
+            "destination": entry.headsign,
+            "minutes_to_departure": minutes_to_departure,
+            "station": Config.STOP_NAME,
+        }
+
+        clean_data.append(parsed_entry)
+
+        logger.debug(
+            "Parsed departure: %s",
+            parsed_entry,
         )
-        next_departure_idx += 1
 
         # Convert each entry into one json block
     return clean_data

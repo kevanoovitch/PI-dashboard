@@ -1,8 +1,9 @@
 import binascii
 from datetime import datetime
 from unittest.mock import patch
-from app.api.departures import _binary_search_next_departure, _calculate_min_to_departure, get_departures_data
+from app.api.departures import _binary_search_next_departure, _calculate_min_to_departure, get_departures_data, _gtfs_seconds
 from app.data_handling.read_data import StopDeparture
+from types import SimpleNamespace
 def test_time_calculation():
     fake_now = datetime(2026, 9, 3, 7, 0, 0)
 
@@ -21,6 +22,31 @@ def test_time_calculation():
 
         result_3 = _calculate_min_to_departure(time_str_3)
         assert result_3 == 1134
+
+
+def test_sort():
+    departures = [
+        SimpleNamespace(departure_time="12:30:00"),
+        SimpleNamespace(departure_time="24:10:00"),
+        SimpleNamespace(departure_time="06:15:00"),
+        SimpleNamespace(departure_time="09:45:00"),
+    ]
+
+    departures.sort(
+        key=lambda departure: _gtfs_seconds(departure.departure_time)
+    )
+
+    times = [departure.departure_time for departure in departures]
+
+    assert times == [
+        "06:15:00",
+        "09:45:00",
+        "12:30:00",
+        "24:10:00",
+    ]
+
+
+
 
 def test_binary_search():
     fake_now = datetime(2026, 9, 3, 7, 0, 0)
