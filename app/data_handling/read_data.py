@@ -272,17 +272,6 @@ def _get_stop_id(stop_name: str, file_path: Path = Config.STOPS) -> str | None:
     # 3. Otherwise pick first child
     return children[0]["stop_id"]
 
-
-def _get_scheduled_stop_time(stop_id):
-    pass
-    # Based on stop_times.txt get
-
-
-
-    # All stop times and convert to HH:MM (Digital clock format)
-
-
-
 def _fetch_static_data():
     #TODO: implement this
     pass

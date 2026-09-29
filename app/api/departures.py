@@ -6,53 +6,6 @@ from app.data_handling.read_data import static_read
 from app.config import Config
 import logging
 
-
-"""
-Docstring for app.api.departure
-
-My get departure api which should return the data
-line number
-destination
-departure time
-platform/departure stop
-
-Optionals:
-minutes until departure
-status (on time / delayed)
-
-ex 1:
-linje 1: Saltö, 4 min från Campus Gräsvik
-
-or something like this
-| Linje | Dst | Time |
----
-| 1     | Saltö | 4 min |
----
-
-"""
-
-mock_data = [
-    {
-        "line": "1",
-        "destination": "Saltö",
-        "minutes_to_departure": "4",
-        "station": "Campus Gräsvik"
-    },
-    {
-        "line": "1",
-        "destination": "Saltö",
-        "minutes_to_departure": "14",
-        "station": "Campus Gräsvik"
-    },
-    {
-        "line": "1",
-        "destination": "Saltö",
-        "minutes_to_departure": "24",
-        "station": "Campus Gräsvik"
-    }
-
-]
-
 logger = logging.getLogger()
 
 def get_departures_data():
@@ -111,11 +64,6 @@ def get_departures_data():
 
         # Convert each entry into one json block
     return clean_data
-
-#FIXME: remove derelict function
-def _gtfs_seconds(time_str: str) -> int:
-    hours, minutes, seconds = map(int, time_str.split(":"))
-    return hours * 3600 + minutes * 60 + seconds
 
 def _binary_search_next_departure(departures):
 

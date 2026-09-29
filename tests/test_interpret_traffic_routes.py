@@ -12,10 +12,6 @@ def test_get_stop_id_A():
     print(f"Fetched ID: {curr_stop_id}")
     assert curr_stop_id == id_stop_A
 
-def test_get_stop_time():
-    #TODO: implement this
-    pass
-
 def test_service_runs_on_monday():
     fake_calendar=(
         "service_id,monday,tuesday,wednesday,thursday,friday,"
