@@ -1,9 +1,14 @@
-import binascii
 from datetime import datetime
-from unittest.mock import patch
-from app.api.departures import _binary_search_next_departure, _calculate_min_to_departure, get_departures_data
-from app.data_handling.read_data import StopDeparture
 from types import SimpleNamespace
+from unittest.mock import patch
+
+from app.api.departures import (
+    _binary_search_next_departure,
+    _calculate_min_to_departure,
+)
+from app.data_handling.read_data import StopDeparture
+
+
 def test_time_calculation():
     fake_now = datetime(2026, 9, 3, 7, 0, 0)
 

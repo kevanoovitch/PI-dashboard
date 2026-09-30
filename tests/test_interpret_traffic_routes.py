@@ -1,7 +1,8 @@
 
-from app.data_handling.read_data import _get_stop_id,static_read,_check_avalibility_in_schedule
-from unittest.mock import mock_open, patch
 from datetime import date
+from unittest.mock import mock_open, patch
+
+from app.data_handling.read_data import _check_avalibility_in_schedule, _get_stop_id
 
 
 def test_get_stop_id_A():

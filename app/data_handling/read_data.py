@@ -1,10 +1,10 @@
 import csv
+import logging
+from dataclasses import dataclass
 from datetime import date, datetime, timedelta
 from pathlib import Path
-from sys import exception
+
 from app.config import Config
-from dataclasses import dataclass
-import logging
 
 logger = logging.getLogger()
 

@@ -1,10 +1,9 @@
 
-from datetime import date, datetime, timedelta
-from doctest import debug
-from venv import logger
-from app.data_handling.read_data import static_read
-from app.config import Config
 import logging
+from datetime import datetime, timedelta
+
+from app.config import Config
+from app.data_handling.read_data import static_read
 
 logger = logging.getLogger()
 
@@ -69,11 +68,6 @@ def _binary_search_next_departure(departures):
 
     # Find the departure nearest to the current time using gtfs_minutes
     now = datetime.now()
-    now_seconds = (
-        now.hour * 3600
-        + now.minute * 60
-        + now.second
-    )
 
     low_idx = 0
     high_idx = len(departures)-1

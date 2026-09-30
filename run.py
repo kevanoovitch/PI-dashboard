@@ -1,9 +1,8 @@
 # run.py
-from app import create_app
-import logging
 import argparse
+import logging
 
-
+from app import create_app
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
